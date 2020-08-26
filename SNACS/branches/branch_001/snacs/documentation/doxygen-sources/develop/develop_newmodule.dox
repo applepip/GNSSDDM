@@ -1,0 +1,75 @@
+/*!
+
+\page development_new_module Development of a new processing module
+
+See one of the following sections on how to compile SNACS on UNIX or Windows first: \ref inst_scratch_unix, \ref inst_scratch_win.
+
+Start with existing code to develop a new source, processing, or sink module. 
+
+A source module only has one ConcBuf as output. A processing module has a ConcBuf as input and a ConcBuf for output data. A sink module has one ConcBuf for its input.
+
+To develop a new processing module, you could start with the low pass filter module snProcessorLPF. Copy snProcessorLPF.cpp and snProcessorLPF.h to two new files in snacs/trunk/snProcessorBlocks/, e.g. snProcessorNew1.cpp and snProcessorNew1.h, respectively.
+
+Add the two files to SNACS.pro:
+
+\verbatim
+HEADERS += snWidget/snPlot.h \
+... \
+    snProcessorBlocks/snProcessorNew1.h 
+SOURCES += snWidget/snPlot.cpp \
+... \
+    snProcessorBlocks/snProcessorNew1.cpp 
+\endverbatim
+
+Then change the class names in snProcessorNew1.*. 
+
+Add the header file to snSimulation/snMainWindow.h:
+
+\verbatim
+// processor snBlocks
+#include "../snProcessorBlocks/snProcessorADC.h"
+...
+#include "../snProcessorBlocks/snProcessorNew1.h"
+\endverbatim
+
+Add the setup part of the new block in snSimulation/snMainWindow.cpp. Take the setup of a processor module as an example, e.g.:
+
+\verbatim
+} else if (curBlock == "snLowPassFilter") {
+	ConcBufs->push_back(new ConcBuf(Sig.aBuf, Sig.BufSize, "Low Pass Filter"));
+	
+	snWs->push_back(new snWidget(this, "Low Pass Filter", snWidget::INLINE));
+
+	snBlocks->push_back(new snProcessorLPF(cfg.lookup(QString(
+		BlockPath).toStdString()), Sig, SigProc, snWs->back(),
+		ConcBufs->at(ConcBufs->size() - 2), ConcBufs->back()));
+
+	connect(snBlocks->back(), SIGNAL(snLogSignal(const QString &)), this, SLOT(log(const QString &)));
+	connect(snBlocks->back(), SIGNAL(snLogSignalDebug(const QString &, int)), this, SLOT(logDeb(const QString &, int)));
+
+	log("setup of snBlock snLowPassFilter complete.");
+\endverbatim
+
+and change it to setup the new block:
+
+\verbatim
+} else if (curBlock == "snNew") {
+	ConcBufs->push_back(new ConcBuf(Sig.aBuf, Sig.BufSize, "snNew"));
+
+	snWs->push_back(new snWidget(this, "snNew", snWidget::INLINE));
+	
+	snBlocks->push_back(new snProcessorLPF(cfg.lookup(QString(
+		BlockPath).toStdString()), Sig, SigProc, snWs->back(),
+		ConcBufs->at(ConcBufs->size() - 2), ConcBufs->back()));
+
+	connect(snBlocks->back(), SIGNAL(snLogSignal(const QString &)), this, SLOT(log(const QString &)));
+	connect(snBlocks->back(), SIGNAL(snLogSignalDebug(const QString &, int)), this, SLOT(logDeb(const QString &, int)));
+	
+	log("setup of snBlock snNew complete.");
+\endverbatim
+
+"snNew" will be the new name for the Type = "snNew" stanza in the SNACS configuration file.
+
+Then run qmake and start working on the new code for the newly created processing module.
+
+*/

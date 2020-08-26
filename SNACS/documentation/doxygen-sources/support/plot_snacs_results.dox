@@ -1,0 +1,20 @@
+/*!
+
+\page plot_snacs_results MATLAB script for plotting SNACS results: plot_snacs_results
+
+This MATLAB script displays SNACS simulation results. 
+
+Enter your result file name into line 37 as 
+
+\verbatim
+file = 'Result/result.h5';
+\endverbatim
+
+\image html snacs-result_w800.png "SNACS results displayed by MATLAB script plot_snacs_results.m"
+
+MATLAB source code:
+
+\includelineno support/plot_snacs_results/plot_snacs_results.m
+
+*/
+

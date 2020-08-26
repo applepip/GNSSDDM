@@ -1,0 +1,31 @@
+/*!
+\page conf_hdf5_cir_file HDF5 channel impulse response input file structure
+
+\section conf_hdf5_cir_file HDF5 channel impulse response input file structure 
+
+See Sec. \ref cdx_format for a description of the CDX format.
+
+\section hdf5_support Support Program to convert CDX files
+
+SNACS ships with a program to convert continuous-delay CDX files to discrete-delay CDX files. Use these instructions to compile it
+
+\subsection cmpile_hdf5_support_win On Windows:
+
+-# Download and install the MingW graphical installer from http://sourceforge.net/projects/mingw/files/Installer/mingw-get-inst/. Choose the most recent version, i.e. mingw-get-inst-20111118.exe today. During installation of MingW select the C, C++, and Fortran compilers. Also click on "MSYS".
+-# open a MinGW shell: "Start", "All Programs", "MinGW", "MinGW Shell"
+-# install bzip2: <tt>mingw-get.exe install bzip2</tt>.
+-# Download the <a href="http://sourceforge.net/apps/wordpress/itpp/">IT++ library</a>. Get the file itpp-4.2.tar.bz2 from http://sourceforge.net/projects/itpp/files/itpp/4.2.0/. Save the file in C:\\libs\\
+-# Go to the MinGW shell window. Go to /c/libs/: <tt>cd /c/libs</tt>
+-# extract itpp-4.2.tar.bz2: <tt>tar xjf itpp-4.2.tar.bz2</tt>
+-# go to the itpp directory: <tt>cd itpp-4.2</tt>
+-# configure the itpp library: <tt>./configure --prefix=/mingw --disable-comm --disable-fixed --disable-optim --disable-protocol --disable-signal --disable-srccode --without-fft --without-blas --without-lapack</tt>
+-# compile the itpp library: <tt>make</tt>
+-# install the itpp library: <tt>make install</tt>
+-# download the <a href="http://www.boost.org/">Boost library</a> boost_1_48_0.tar.bz2 from http://sourceforge.net/projects/boost/files/boost/1.48.0/ to C:\\libs\\
+-# Go to the MinGW shell window. Go to /c/libs/: <tt>cd /c/libs</tt>
+-# extract the Boost library: <tt>tar xjf boost_1_48_0.tar.bz2</tt>
+-# create the directory C:\\libs\\workspace
+-# check out the SNACS distribution into C:\\libs\\workspace\\snacs using your favorite SVN client. The URL can be found in \ref inst_dev.
+-# Go back to the MinGW shell window. Go to the directory where the support program is located: <tt>cd /c/libs/workspace/snacs/cdx_format/CDX_library_functions/support_programs/convert-continuous-to-discrete-cdx</tt>
+-# compile the program: <tt>make -f Makefile-win</tt>.
+*/

@@ -1,0 +1,56 @@
+/*!
+
+\page Example08 Example 08 - SNACS binary signal interface to other software defined receivers
+
+It is possible to use SNACS just for signal generation and the (optional) application of a channel model. Further processing of the tracking could be performed by other software defined receivers. This example shows the example of GPS signal generation, the application of the channel impulse response (CIR) file which was generated in \ref Example04 "Example 04" and the subsequent output to a binary data file.
+
+You can start it by running
+
+\verbatim
+cd snacs/trunk/release
+./SNACS-release -f ../../examples/example_08/example_08_gps.cfg 
+\endverbatim
+
+This is a screenshot of the running simulation:
+
+\image html example-08-screenshot.png "SNACS screenshot of Example 08"
+
+The signal can easily be read into a MATLAB variable using the fread command:
+\verbatim
+signal = fread(fileID, samples, data_type);
+\endverbatim
+
+Of course, the parameters have to correspond to the SNACS configuration file.
+
+You can use the MATLAB script read_binary_file_example08.m to plot the results:
+
+\image html snacs-result_example08.png "Plot of Example 08"
+
+This is the complete MATLAB script:
+
+\includelineno example_08/read_binary_file_example08.m
+
+It is also possible to process the file with the software defined receiver (SDR) by K. Borre, D. Akos et al. The SDR ships with the book "A Software-Defined GPS and Galileo Receiver: A Single-Frequency Approach" (http://www.amazon.com/Software-Defined-GPS-Galileo-Receiver-Single-Frequency/dp/0817643907/ref=sr_1_1?ie=UTF8&s=books&qid=1269958375&sr=8-1)
+
+For this SDR, you have to set the right parameters in the file GNSS_SDR/initSettings.m:
+
+\verbatim
+[...]
+settings.fileName           = ...
+   'snacs/examples/example_08/snacs_gps_and_channel_output.bin';
+% Data type used to store one sample
+settings.dataType           = 'schar';
+
+% Intermediate, sampling and code frequencies
+settings.IF                 = 15e6;      %[Hz]
+settings.samplingFreq       = 40e6;     %[Hz]
+[...]
+\endverbatim
+
+\image html SDR-borre-akos-result_example08.png "Tracking result of the SNACS binary output file by the MATLAB SDR by K. Borre, D. Akos et al."
+
+This is the complete SNACS configuration file:
+
+\includelineno example_08/example_08_gps.cfg
+
+*/

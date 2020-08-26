@@ -1,0 +1,26 @@
+/*!
+\page inst_users Installation for users
+
+\section inst_debian SNACS installation on Debian GNU/Linux
+
+Right now there's no Debian package available. Please get the sources via svn and compile SNACS on your system as described in \ref inst_deb.
+
+\section inst_win32 SNACS installation on 32-bit Windows
+
+Download a pre-compiled version snacs-release-svn081_win32.zip from http://sourceforge.net/projects/snacs/files/. Extract the ZIP archive and run SNACS-release.exe from the Windows command prompt. In the actual SVN snapshot, SNACS cannot be started by double-clicking. Open a Windows command prompt instead, go to the snacs/trunk/release directory and start it from there by running SNACS-release.exe:
+
+The release archive ships with example configuration files. Run an example with
+
+\verbatim
+SNACS-release.exe -f ../../examples/example_01/example_01.cfg
+\endverbatim
+
+Click on the start button, to start the simulation.
+
+\section known_bugs Known Bugs
+
+- Detailed HDF5 error messages are printed to the console only. This is important when an input file to snProcessorChannel is not found, for example.
+- Disable Plot3D in the "snSDRStandard" module when working in a VNC session. OpenGL does not work in VNC sessions.
+
+
+*/

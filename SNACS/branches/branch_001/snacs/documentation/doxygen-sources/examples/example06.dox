@@ -1,0 +1,49 @@
+/*!
+
+\page Example06 Example 06 - Simulation with channel model output
+
+This example explains the simulation with the channel impulse response (CIR) file which was generated in \ref Example05 "Example05".
+
+We can use the same SNACS configuration file structure as in \ref Example02 "Example 04".
+We have to provide the correct CIR file name for the "snChannel" module :
+
+\verbatim
+		{	Type = "snChannel";
+			file = "../../examples/example_05/snacs-cir-file_DLRLMS_example-05.h5";
+			interpolation_type = "SINC";
+			interpolation_bandwidth = 10.23e6;
+		},		
+\endverbatim
+
+The same signal is defined for both signal generation and tracking.
+
+The complete SNACS configuration file for this example is given below. The noise module is commented out to see the isolated multipath effect caused by the channel.
+
+You can start it by running
+
+\verbatim
+cd snacs/trunk/release
+./SNACS-release -f ../../examples/example_06/example_06_gps.cfg 
+\endverbatim
+
+This is a screenshot of the running simulation:
+
+\image html example-06-screenshot.png "SNACS screenshot of Example 06"
+
+You can use the MATLAB script plot_snacs_results_example06.m to plot the results:
+
+\image html snacs-result_example06.png "SNACS simulation result of Example 06"
+
+The MATLAB script plot_snacs_results_with_cir_file_example06.m displays the CIR, the reference ranges and the SNACS pseudorange result into one plot:
+
+\image html snacs-result-and-cir_example06.png "CIR, the reference ranges and the SNACS pseudorange result"
+
+The file plot_snacs_results_with_cir_file_example06.m:
+
+\includelineno example_06/plot_snacs_results_with_cir_file_example06.m
+
+This is the complete SNACS configuration file for this example:
+
+\includelineno example_06/example_06_gps.cfg
+
+*/

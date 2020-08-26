@@ -1,0 +1,25 @@
+for mingw 4.4.0:
+
+In file: C:\MinGW\lib\gcc\mingw32\4.4.0\libstdc++.la I had to change line 11: library_names='libstdc++.dll.a'
+to library_names='libstdc++.a
+[ from http://trac.osgeo.org/geos/ticket/282 ]
+
+
+compile itpp:
+
+
+
+# no -DNDEBUG to enable vector index checking.
+# no --disable-comm
+
+CXXFLAGS="-O3 -mfpmath=sse -march=core2 -msse2 -pipe" ./configure --disable-html-doc --disable-fixed --disable-optim --disable-protocol --disable-srccode --with-gnu-ld --with-blas="-latlas -lblas"
+
+
+
+compile libconfig:
+./configure -prefix=/ ...
+
+compile qwtplot3d from svn:
+in include/qwt3d_openglhelper.h add #include <GL/glu.h>
+
+see http://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1003114.html

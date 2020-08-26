@@ -1,0 +1,242 @@
+/*!
+\page configuration SNACS Configuration
+
+\section configintro Introduction
+
+SNACS requires a structured configuration file which defines all parameters necessary for performing the simulation. The following sections explain \link config_file SNACS's configuration file \endlink and its \link config_params command line parameters \endlink.
+
+\section config_file SNACS configuration file
+
+SNACS uses libconfig to read the configuration file. The detailed syntax can be found at http://www.hyperrealm.com/libconfig/.
+
+The syntax of the configuration file is C-like, for example, every line has to end with a semicolon. Comments until the end of the line can be done with \verbatim // \endverbatim and block-wise with \verbatim /* ... */ \endverbatim.
+
+The general form of a configuration file is
+
+\verbatim
+
+Simulation:
+{
+	<simulation parameters common to all snBlocks>
+	...
+
+	SNBlocks = (
+		<definition of snBlocks>
+	); 
+};
+
+Plotting:
+{
+	<parameters for plotting>
+};
+	
+\endverbatim
+
+\section simparams Simulation parameters common to all snBlocks
+
+- \c SamplingFrequency: sampling frequency in Hz
+- \c c0: speed of light in m/s
+- \c SignalLength: total simulation length in s
+- \c IntermediateFrequency: intermediate frequency in Hz
+- \c ConcBufSize: size of conbuf block in s
+- \c result_directory: directory name where the result files will be saved (string)
+- <tt>append_date_to_outdir:  false|true</tt>: if true, the date and time in the format YYYY-MM-DD_HH-MM-SS will be appended
+to the \c result_directory name 
+
+\section plotparams Parameters for plotting
+
+- \c UpdateInterval : time interval at which the display is being updated in ms
+- \c PlotXSize : amount of samples to be plottet per plot. format: long, e.g. \c 2000L
+
+\section snblocksparams snBlocks parameters
+
+\subsection snblock_gengps GPS signal source (snSignalGenerateGPS)
+
+This snblock generates a C/A code GPS signal.
+
+- <tt>Type = "snSignalGenerateGPS";</tt>
+- <tt>SignalType = "C/A". Until now, only C/A code signal is supported
+- \c PRN: number of PRN to be generated.
+
+\subsection snblock_lowpass Low-pass filter (snLowPassFilter)
+
+- <tt>Type = "snLowPassFilter";</tt>
+- \c Order: filter order.
+- \c CutOffFrequency: cut-off frequency.
+
+\subsection snblock_channel Processing of channel model data (snChannel)
+
+- <tt>Type = "snChannel";</tt>
+- \c File: HDF5 input file. Structure as defined in \ref conf_hdf5_cir_file
+- \c interpolation_frequency: interpolation bandwidth for the sin(x)/x interpolation of the continuous channel impulse responses to discrete FIR coefficients.
+
+\subsection snblock_noise Noise generator (snNoise)
+- <tt>Type = "snNoise";</tt>
+- \c snr_db: carrier to noise ratio in dB.
+- \c start_sec: defines the start time at which the noise samples are being added to the source signal.
+
+\subsection snblock_adc Upconversion and quantization (snADC)
+
+- <tt>Type = "snADC";</tt>
+- \c adc_bits: amount of quantization bits. The amount of quantization steps are given by 2^(adc_bits)
+- <tt>enable_vga = true|false</tt>: The variable gain amplifier (VGA) detects the size of the peak sample in the current concbuf and divides all samples by its inverse. This operation normalizes all samples to the peak sample and ensures that all quantization bits are excited.
+- \c vga_lowest_amplification_dB: the lowest amplification the VGA can use in dB.
+- \c vga_highest_amplification_dB: the highest amplification the VGA can use in dB.
+
+\subsection snblock_sdrgps GPS software receiver tracking loops (snSDRGPS)
+- <tt>Type = "snSDRGPS";</tt>
+- \c SignalType: only "C/A" is supported.
+- \c PRN: PRN number
+
+- \c CorrFuncSamples: amount of additional samples on correlation function
+- \c CorrFuncStart: start here with additional correlation func samples in chips
+- \c CorrFuncDist: distance between correlation function samples in chips
+			
+- \c WriteCorrFunc: ?
+
+- <tt>enable_aquisition = true|false;</tt>
+If enable_aquisition is set to false, \c StartSample must be defined.
+- \c StartSample: The code tracking loop starts to track the signal starting with this sample.
+
+\subsubsection sdrgps_aq Aquisition			
+- <tt>Plot3D = true|false</tt>: defines if a window with a 3D-graph of the aquisition result should be opened.
+- \c Length: aquisition length in seconds.
+- \c aq_freq_band: the bandwidth in Hertz around which the aquisition is performed
+- \c aq_freq_step: the frequency steps in Hertz for the aquisition search
+- \c Threshold: the smallest ration of the highest to the lowest peak in the aquisition search space for which aquisition successful is declared.
+		
+\subsubsection sdrgps_tracking Tracking
+		
+- <tt>enable_tracking = true|false;</tt>
+- \c CorrelationLength: Correlation length in seconds
+
+DLL parameter section:
+
+- \c DiscriminatorType: early minus late ("EML") and dot-product ("DP") are possible choices
+- \c EarlyLateSpacing: the early late spacing in chips
+- \c DampingRatio: the DLL damping ratio
+- \c NoiseBandwidth: the DLL noise bandwidth
+
+PLL parameter section:
+
+- \c DampingRatio: the PLL damping ratio
+- \c NoiseBandwidth: the PLL noise bandwidth
+	
+\section cfgexample Configuration file example
+
+\verbatim
+
+Simulation:
+{
+	SamplingFrequency = 40e6; // Hz
+	c0 = 2.99e8;
+	SignalLength = 10.0; // s
+	IntermediateFrequency = 15e6; // Hz
+	
+	ConcBufSize = 0.001; // in s
+
+	result_directory = "Result";
+	append_date_to_outdir = true;
+
+	SNSets = (
+		{	Title = "Signal Generation";
+		},
+		{	Title = "Software Defined Receiver";
+		}
+	);
+
+	SNBlocks = (
+
+		{	Type = "snSignalGenerateGPS";
+			SNSet = 0;	
+			SignalType = "C/A";	
+			PRN = 10;
+		},
+
+		{	Type = "snLowPassFilter";
+			Order = 64;
+			CutOffFrequency = 10.23e6;
+			SNSet = 0;			 
+		},
+
+		{	Type = "snChannel";
+			SNSet = 0;			 
+			File = "/home/fschubert/CIRs/DLRLMS_test7.h5";
+			interpolation_bandwidth = 10.23e6;
+		},
+
+		{	Type = "snNoise";
+			SNSet = 0;			 
+			snr_db = 45.0;
+			start_sec = 0.0;
+		},		
+
+		{	Type = "snADC";
+			SNSet = 0;
+			adc_bits = 3;		
+			enable_agc = true;
+			agc_lowest_amplification_dB = -6.0;
+			agc_highest_amplification_dB = 42.5;
+		},
+
+		{	Type = "snSDRGPS";
+			SNSet = 1;			 
+			SignalType = "C/A";		
+			PRN = 10; 
+
+			CorrFuncSamples = 13; // amount of additional samples on correlation function
+			CorrFuncStart = -1.5; // start here with additional corr func samples in chips
+			CorrFuncDist = 0.25; // distance between corr func samples in chips
+			
+			WriteCorrFunc = false;
+
+			DoGPSAquisition = false;
+			StartSample = 10;
+			
+			Aquisition:	
+			{	
+				SNSet = 1;			 
+				Plot3D = true;
+				Length = 1e-3;
+				aq_freq_band = 10000.0; // Hz
+				aq_freq_step = 250.0; // Hz
+				Threshold = 1.5;
+			};		
+
+			DoGPSTracking = true;
+			Tracking:
+			{
+				SNSet = 1;			
+				CorrelationLength = 0.001; 
+				DLL:
+				{
+					DiscriminatorType = "EML";
+					EarlyLateSpacing = 1.0;
+					DampingRatio = 0.707;
+					NoiseBandwidth = 5.0;
+				};
+				PLL:
+				{
+					DampingRatio = 0.707;
+					NoiseBandwidth = 25.0;
+				};
+			};
+		}
+	); // end SNBlocks
+}; // end Simulation
+
+Plotting:
+{
+	UpdateInterval = 5000; // ms
+	PlotXSize = 512L; // samples to be plottet. format: long (L) 
+};
+
+\endverbatim
+
+\section config_params SNACS command line parameters
+
+- <tt>-f file</tt>: read configuration from file
+- <tt>-s</tt>: start simulation after loading configuration file
+- <tt>-d x</tt>: set debug level to x
+
+*/

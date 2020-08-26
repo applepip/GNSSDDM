@@ -1,0 +1,30 @@
+/*! \mainpage notitle
+
+\image html snacs-logo_v04_w320.png
+
+<b>The Satellite Navigation Radio Channel Simulator</b>
+
+SNACS is a software which can simulate signals of Global Satellite Navigation Systems (GNSS) on sample-level in time-domain. Its speciality is the ability to simulate realistic situations by the application of GNSS channel models.
+
+SNACS is written using a multi-threaded, object-oriented approach in C++. It offers a GUI to monitor running simulations. SNACS runs on Linux and Windows (using MinGW).
+
+SNACS is experimental software in alpha stage and until now it can only generate and process the C/A code signal of the Global Positioning System (GPS).
+
+The usage of SNACS is shown in the \ref configuration section. A conference paper describes SNACS's technical background in more detail: https://www.ion.org/publications/abstract.cfm?articleID=8609.
+
+The section \ref inst_users explains on how to download and install SNACS for users. Documentation on how to compile the SNACS sources on Linux and Windows can be found in the \ref inst_dev section.
+
+A description of the example configuration files can be found in the \ref examples section. The supporting scripts to display and evaluate SNACS simulation results are in the \ref support_tools section.
+
+This is a video where you can see SNACS running on Windows. The effects of a ride through a city on the GPS signal is simulated
+\htmlonly
+<center>
+<object width="640" height="505"><param name="movie" value="http://www.youtube.com/v/x56KSjm76H0&hl=en&fs=1&"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/x56KSjm76H0&hl=en&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="505"></embed></object>
+<!-- <object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/x56KSjm76H0&hl=en&fs=1&"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/x56KSjm76H0&hl=en&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>
+-->
+</center>
+\endhtmlonly
+
+SNACS is being developed by the German Aerospace Center (DLR), Frank M. Schubert (http://www.kn-s.dlr.de/People/Schubert)
+
+*/

@@ -1,0 +1,21 @@
+/*!
+\page conf_hdf5_cir_file HDF5 channel impulse response input file structure
+
+\section conf_hdf5_cir_file HDF5 channel impulse response input file structure 
+
+HDF5 files are organized in groups which can be compared to directories on file systems. The SNACS snProcessorChannel snBlock requires the following structure to be present in an HDF5 input file for reading channel impulse responses:
+
+Basic parameters:
+
+- \c /parameters/simulation/c0
+- \c /parameters/simulation/cir_rate
+- \c /parameters/simulation/cir_amount
+
+Optional parameters:
+
+- \c /parameters/generation_time
+
+- \c /parameters/model/channel_scenery
+
+
+*/

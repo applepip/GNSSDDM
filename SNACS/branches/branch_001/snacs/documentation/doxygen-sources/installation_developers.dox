@@ -1,0 +1,34 @@
+/*!
+
+\page inst_dev Installation for developers
+
+\section inst_scratch SNACS installation from scratch 
+
+To checkout the SNACS development files, run
+
+\verbatim
+svn co https://snacs.svn.sourceforge.net/svnroot/snacs
+\endverbatim
+
+These libraries are additionally needed to compile SNACS:
+
+- Qt
+- QwtPlot
+- QwtPlot3D
+- FFTW
+- HDF5
+- libconfig
+- TCLAP
+- Boost
+
+The following sections describes on how to compile these libraries on Linux and Windows:
+
+\ref inst_dev_deb
+
+\ref inst_scratch_win
+
+\section eclipse_notes Notes for Eclipse users:
+
+Use the subversive plugin for Eclipse to access the Sourceforge SVN repository. When importing the project, select "Import with C++ Wizard", "C++ project".
+
+*/

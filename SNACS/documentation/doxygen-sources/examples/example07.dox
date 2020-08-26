@@ -1,0 +1,58 @@
+/*!
+
+\page Example07 Example 07 - Exciting Galileo Signals
+
+SNACS can also be used to generate and track the new binary offset carrier (BOC) modulated Galileo signals. Due to SNACS flexibility, the two signal types for generation and tracking don't have to be the same necessarily.
+
+For example, the signal definition for signal generation could be the CBOC(6,1,1/11) signal as transmitted by (future) Galileo satellites:
+
+\verbatim
+signal = {
+	inphase = {
+		code = "E1B";
+		prn = 1;
+		modulation = "CBOC(n1,n2,p)";
+		n1 = 6.0;
+		n2 = 1.0;
+		p_numerator = 1.0;
+		p_denominator = 11.0;
+	};
+};
+\endverbatim
+
+Of course it is possible to use the same CBOC signal for tracking. But we can track this signal also as BOC(1,1) signal, to test a lower receiver complexity, for example. Then, we use a different signal definition block for the "snSDRStandard" aquisition and tracking module:
+
+\verbatim
+signal = {
+	inphase = {
+		code = "E1B";
+		prn = 1;
+		modulation = "BOC(n,m)";
+		n = 1.0;
+		m = 1.0;
+		subcarrier_phasing = "sin";
+		data_type = "none";
+	};
+};
+\endverbatim
+
+You can start it by running
+
+\verbatim
+cd snacs/trunk/release
+./SNACS-release -f ../../examples/example_07/example_07_cboc.cfg 
+\endverbatim
+
+This is a screenshot of the running simulation:
+
+\image html example-07-screenshot.png "SNACS screenshot of Example 07"
+
+You can use the MATLAB script plot_snacs_results_example07.m to plots the results:
+
+\image html snacs-result_example07.png "SNACS simulation result of Example 07"
+
+This is the complete SNACS configuration file:
+
+\includelineno example_07/example_07_cboc.cfg
+
+*/

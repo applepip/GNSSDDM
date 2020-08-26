@@ -1,0 +1,23 @@
+/*!
+
+\page Example03 Example 03 - Generation of a simple, artificial channel impulse response file
+
+The main purpose of SNACS is to simulate GNSS signal propagation in different channels. We start by generating a simple channel impulse response (CIR) file. The CIR will contain a single component that rests at delay = 0 s for the duration of one second and starts to move then. This situation could describe a receiver that is solely receiving the line-of-sight (LOS) signal of a transmitter. After one second it starts to move away from the transmitter.
+
+You can define the maximum speed of the vehicle. The acceleration is computed in a continuous way using the cosine function.
+
+The file is saved in HDF5 format to snacs_cir_moving_los_v01.h5.
+
+This is the corresponging MATLAB script:
+
+\includelineno example_03/snacs_generate_moving_los.m
+
+The output of the MATLAB script:
+
+\image html example03_receiver-speed.png "The resulting receiver speed"
+\image html example03_distance.png "The distance receiver - transmitter"
+\image html example03_amplitude.png "The amplitude of the generated CIR"
+\image html example03_phase.png "The phase of the generated CIR"
+
+
+*/

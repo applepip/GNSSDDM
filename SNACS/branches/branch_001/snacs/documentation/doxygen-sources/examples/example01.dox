@@ -1,0 +1,17 @@
+/*!
+
+\page Example01 Example 01 - Basic Configuration File
+
+This basic example generates a GPS signal, applies a low-pass filter with a single-sided cut-off frequency of 10.12 MHz and displays it in a window.
+
+You can start it by running
+
+\verbatim
+cd snacs/trunk/release
+./SNACS-release -f ../../examples/example_01/example_01.cfg 
+\endverbatim
+
+\include example_01/example_01.cfg
+
+*/
+

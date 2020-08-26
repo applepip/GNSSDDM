@@ -1,0 +1,24 @@
+===========
+== SNACS ==
+===========
+
+Stable Version
+--------------
+A description of SNACS is provided on http://snacs.sourceforge.net
+
+The source code of the latest stable version is located in snacs/trunk.
+The example configuration files are located in snacs/examples as described on http://snacs.sourceforge.net/examples.html
+
+Development Version
+-------------------
+The current version under development is located in
+
+snacs/branches/branch_001/snacs/trunk
+
+The examples in snacs/branches/branch_001/snacs/examples might not run anymore since the parameter set changed during the development.
+
+Channel Impulse Response Files as Input, Channel Data Exchange (CDX) format
+===========================================================================
+The format of the files that SNACS takes as input data for channel impulse responses is based on the HDF5 file format. A short description of it is given on http://snacs.sourceforge.net/conf__hdf5__cir__file.html.
+A MATLAB library is available in snacs/cdx_format/CDX_library_functions, along with examples on how to write, read, and display in snacs/cdx_format/Matlab-Examples.
+

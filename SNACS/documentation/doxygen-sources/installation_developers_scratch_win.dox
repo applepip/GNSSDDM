@@ -1,0 +1,267 @@
+/*!
+
+\page inst_scratch_win Installation for developers on Windows
+
+\section inst_scratch_win Installation for developers on Windows
+
+\subsection mingw Installing MinGW and MSYS
+
+Get the automated installer from http://www.mingw.org. Then do an installation of the current MingW release to c:/MinGW.
+
+After that get and extract gcc-full-4.4.0-mingw32-bin-2.tar.lzma with 7-Zip over c:/MinGW
+
+There is a little bug in the MingW distribution: In file: C:/MinGW/lib/gcc/mingw32/4.4.0/libstdc++.la you have to change line 11: from
+
+\verbatim
+library_names='libstdc++.dll.a' 
+\endverbatim
+
+to
+
+\verbatim
+library_names='libstdc++.a' 
+\endverbatim
+
+[ from http://trac.osgeo.org/geos/ticket/282 ]
+
+To compile something with the just installed MinGW version, open a Windows command prompt and enter
+
+\verbatim
+set PATH=c:\MinGW\bin;c:\Qt\4.6.2\bin
+\endverbatim
+
+To check, if the installed gcc is really a 4.4.0 version, run
+
+\verbatim
+gcc -v
+\endverbatim
+
+You also have to install MSYS to compile some of the following libraries on Windows. Download the MSYS installer from the above mentioned MinGW site.
+
+\subsection qt_win Qt 4.6.2
+
+Download the "Qt: Framework Only" from http://qt.nokia.com/downloads/windows-cpp ("Download Qt libraries 4.6.2 for Windows")
+
+Uncompress the files to C:/Qt/4.6.2.
+
+All other additional libraries should be installed to C:/libs
+
+\subsection qwt_win Qwt
+
+The Qt Widgets for Technical Applications (http://qwt.sourceforge.net) can be downloaded from http://sourceforge.net/projects/qwt.
+
+The SVN version have to be used, it includes patches to compile with Qt 4.6. You can use cygwin (www.cygwin.org) to access the svn repository. Open a Cygwin shell and enter
+
+\verbatim
+cd /cygdrive/c/libs/
+svn co https://qwt.svn.sourceforge.net/svnroot/qwt/branches/qwt-5.2
+\endverbatim
+
+In file qwtconfig.pri: set "CONFIG += debug" to "CONFIG += release" in the Qt4/win32 sections.
+
+To compile Qwt Open a Windows command prompt and enter, set the right paths
+\verbatim
+set PATH=c:\MinGW\bin;c:\Qt\4.6.2\bin
+\endverbatim
+
+go to c:/libs/qwt-5.2.0 and run
+
+\verbatim
+qmake
+mingw32-make
+\endverbatim
+
+\subsection qwtplot3d_win QwtPlot3D
+
+The QwtPlot3D (http://qwtplot3d.sourceforge.net) widget can be downloaded from http://qwtplot3d.sourceforge.net/web/navigation/download_frame.html
+
+Extract qwtplot3d-0.2.7.zip to C:/libs/qwtplot3d-0.2.7
+
+To compile qwtplot3d, change in C:/libs/qwtplot3d-0.2.7/qwtplot3d.pro the line
+\verbatim
+CONFIG           += qt warn_on opengl thread zlib debug
+\endverbatim
+to
+\verbatim
+CONFIG           += qt warn_on opengl thread zlib release
+\endverbatim
+
+to build qwtplot3d in release mode, otherwise you will get error: "QWidget: Must construct a QApplication before a QPaintDevice".
+
+Moreover, before compiling qwtplot3d and if you use mingw-gcc, you must change in the qwtplot3d.pro this (source http://nxv.sourceforge.net): 
+\verbatim
+win32:TEMPLATE = vclib
+\endverbatim
+to this:
+\verbatim
+win32:TEMPLATE = lib
+\endverbatim
+
+For gcc 4.4.0, you also have to add the line
+\verbatim
+add #include <stdio.h>
+\endverbatim
+to the file qwt3d_function.cpp.
+
+To compile qwtplot3d run in a Qt command prompt:
+\verbatim
+qmake qwtplot3d.pro
+mingw32-make
+\endverbatim
+
+\subsection fftw_win FFTW
+
+A precompiles version of FFTW (http://www.fftw.org ) can be found at http://www.fftw.org/install/windows.html.
+
+Extract fftw-3.2.2-dll.zip to c:/libs/fftw-3.2.2
+
+\subsection libconfig_win Libconfig
+Download Libconfig (http://www.hyperrealm.com/libconfig) from http://www.hyperrealm.com/libconfig/libconfig-1.4.3.tar.gz
+
+Extract contents c:/libs/libconfig-1.4.3
+
+Change in file wincompat.h line 35:
+\verbatim
+#define atoll     _atoi64
+\endverbatim
+to
+\verbatim
+//#define atoll     _atoi64
+\endverbatim
+
+Run these commands in the MSYS shell:
+
+\verbatim
+cd /c/libs/libconfig-1.4.3
+./configure
+make install
+\endverbatim
+
+\subsection zlib_win ZLib
+Optionally the ZLib can be used with HDF5. The source is available on http://www.zlib.net. Extract the archive to c:/libs/zlib-1.2.4.
+
+Start MSYS. Compile zlib with
+
+\verbatim
+./configure --static --prefix=/c/libs/zlib-1.2.4 --libdir=/c/mingw/lib --includedir=/c/mingw/include
+make
+\endverbatim
+
+\subsection hdf5_win HDF5
+
+Get the source from ftp://ftp.hdfgroup.org/HDF5/current/src. Read and follow the exact instructions in release_docs/INSTALL_MinGW.txt. You also have to remove testing scripts as written in the instructions.
+
+To compile the HDF5 libs on MinGW, run this command in an MSYS shell:
+\verbatim
+export LIBS=-lws2_32
+export PATH=.:/usr/local/bin:/mingw/bin:/bin
+./configure --prefix=/c/libs/hdf5 --enable-cxx --with-zlib=/c/libs/zlib-1.2.4,/c/libs/zlib-1.2.4
+\endverbatim
+
+without zlib
+\verbatim
+export LIBS=-lws2_32
+export PATH=.:/usr/local/bin:/mingw/bin:/bin
+./configure --enable-cxx --without-zlib --prefix=/c/libs/hdf5/
+\endverbatim
+
+Then run
+\verbatim
+make
+make install
+\endverbatim
+
+To link the hdf5 libraries to a program use these parameters:
+\verbatim
+-lz -lhdf5 -l hdf5_cpp
+\endverbatim
+
+\subsection tclap_win TCLAP
+
+Download TCLAP from http://tclap.sourceforge.net/ and extract it to c:/libs/tclap-1.2.0
+
+\subsection boost_win Boost
+Get Boost from http://www.boost.org/users/download/#releases and extract it to c:/libs/boost_1_42_0
+
+\section compile_snacs_windows Compiling SNACS on Windows
+
+You can use cygwin (www.cygwin.org) to access the SNACS svn repository. Open a Cygwin shell and enter
+
+\verbatim
+cd /cygdrive/c/libs/
+svn co https://snacs.svn.sourceforge.net/svnroot/snacs
+\endverbatim
+
+Start a Qt command prompt. Go to the snacs/trunk directory and run
+
+\verbatim
+set PATH=c:\MinGW\bin;c:\Qt\4.6.2\bin
+qmake SNACS.pro
+mingw32-make mocclean clean
+mingw32-make
+\endverbatim
+
+Copy all necessary libraries to the trunk directory:
+
+\verbatim
+copy C:\MinGW\bin\mingwm10.dll release\
+copy C:\MinGW\bin\libgcc_s_dw2-1.dll release\
+copy c:\Qt\4.6.2\bin\QtCore4.dll release\
+copy c:\Qt\4.6.2\bin\QtGui4.dll release\
+copy c:\Qt\4.6.2\bin\QtOpenGL4.dll release\
+copy C:\libs\qwt-5.2\lib\qwt5.dll release\
+copy C:\libs\qwtplot3d-0.2.7\lib\qwtplot3d.dll release\
+copy "C:\libs\libconfig-1.4.3\lib\.libs\libconfig++-8.dll" release\
+copy C:\libs\fftw-3.2.2\libfftw3-3.dll release\
+\endverbatim
+
+or simply call 
+\verbatim
+get-Win-DLLs.bat
+\endverbatim
+
+To run SNACS, type
+\verbatim
+cd release
+SNACS-release.exe
+\endverbatim
+
+\section eclipse Eclipse
+
+Eclipse with the CDT C/C++ environment can be used to develop program code. With the \link http://qt.nokia.com/developer/eclipse-integration Qt integration kit \endlink the SNACS.pro project file can directly be imported into the Eclipse workspace.
+
+These parameters have to be set in Eclipse's project properties:
+- "mingw32-make" as make call
+
+These parameters have to be set in Eclipse's run configurations properties:
+- point executable to the SNACS-release(.exe) file
+
+For windows set these environment parameters
+
+set QTDIR to
+\verbatim
+C:\Qt\4.6.2
+\endverbatim
+
+set PATH to
+\verbatim
+C:\Qt\4.6.2\bin;C:/MinGW\bin
+\endverbatim
+
+set QMAKESPEC
+\verbatim
+win32-g++
+\endverbatim
+
+\section important_notes Important Notes
+
+\subsection debug_or_release Debug or Release
+Very important all libraries have to be build in the same mode, either release or debug.
+
+\subsection wrong_qt_lib More than one Qt DLL in PATH
+"Note: HaiQ and Monkey Studio do not provide their own Qt DLLs. In my case, and with all my coworkers that results in a error such as Der Prozedureinsprungspunkt _Z11qUncompessPKhi wurde in der DLL QtCore4.dll nicht gefunden. This error comes if one has Qt DLLs, not build with MinGW on the system which are included in PATH. In my case it was Matlab or Miktex with the path C:/programme\Matlab\R2007a\bin\win32;C:/Programme\MiKTeX 2.7\miktex\bin. The only solution to this problem is to delete all paths from the PATH variable which contain a Qt DLL. This however can prevent these programms from starting. There are also projects, not build with Qt and not designed for Qt "
+=> many QtCore4.dll in PATH (from Matlab, Nokia PC Suite, Eclipse...)
+Solution:
+set PATH="C:/MinGW\bin;C:/Qt\4.4.3\bin;"
+
+*/

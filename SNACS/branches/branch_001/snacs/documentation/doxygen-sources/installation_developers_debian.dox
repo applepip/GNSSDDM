@@ -1,0 +1,38 @@
+/*!
+
+\page inst_dev_deb Installation for developers on Debian GNU/Linux
+
+\section inst_deb Installation for developers on Debian GNU/Linux
+
+Get the current SNACS source files via svn:
+
+\verbatim
+svn co https://snacs.svn.sourceforge.net/svnroot/snacs
+\endverbatim
+
+Install the following packages on your Debian system:
+\verbatim
+aptitude install g++ make libqt4-dev libqwt5-qt4-dev libqwtplot3d-qt4-dev fftw3-dev libconfig++6-dev libconfig6-dev libhdf5-serial-dev libboost1.35-dev
+\endverbatim
+
+Go to the SNACS source directory snacs/trunk and adjust SNACS.pro if necessary. Then run
+
+\verbatim
+qmake-qt4 SNACS.pro
+\endverbatim
+
+Clean the source directories
+
+\verbatim
+make mocclean clean
+\endverbatim
+
+Then compile SNACS with
+
+\verbatim
+make -j4
+\endverbatim
+
+Adjust \c -j4 to your available processor cores.
+
+*/

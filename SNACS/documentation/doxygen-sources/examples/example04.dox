@@ -1,0 +1,38 @@
+/*!
+
+\page Example04 Example 04 - Simulation with channel impulse response files
+
+This example shows the simulation of a channel impulse response (CIR) with SNACS. In this example we use the simple CIR file which was generated in \ref Example03 "Example 03".
+
+We can use the same SNACS configuration file structure as in \ref Example02 "Example 02" we only have to insert the "snChannel" module and provide the correct CIR file name:
+
+\verbatim
+		{	Type = "snChannel";
+			file = "../../examples/example_04/snacs_cir_moving_los_v01.h5";
+			interpolation_type = "SINC";
+			interpolation_bandwidth = 10.23e6;
+		},		
+\endverbatim
+
+The same signal is defined for both signal generation and tracking. The complete configuration file for the simulation example is given below.
+
+You can start it by running
+
+\verbatim
+cd snacs/trunk/release
+./SNACS-release -f ../../examples/example_04/example_04_gps.cfg 
+\endverbatim
+
+This is a screenshot of the running simulation:
+
+\image html example-04-screenshot.png "SNACS screenshot of example 04"
+
+You can use the MATLAB script plot_snacs_results_example04.m to plot the results:
+
+\image html snacs-result_example04.png "SNACS simulation result of Example 04"
+
+This is the complete configuration file for the simulation example:
+
+\includelineno example_04/example_04_gps.cfg
+
+*/

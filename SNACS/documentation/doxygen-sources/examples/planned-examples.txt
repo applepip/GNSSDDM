@@ -1,0 +1,10 @@
+example01: basic config file
+example02: advanced config file
+example03: generation of simple channel impulse response file
+example04: simulation with channel impulse response files
+example05: generation of channel impulse response file by using a channel model
+example06: simulation of realistic channel impulse responses using BOC signals
+example07: interface to other software receivers
+example08
+example09
+example10

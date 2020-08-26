@@ -1,0 +1,16 @@
+/*! 
+
+\defgroup sourceBlocks Source snBlocks
+@{
+@}
+
+\defgroup procBlocks Processor snBlocks
+@{
+@}
+
+\defgroup sinkBlocks Sink snBlocks
+@{
+@}
+
+
+*/ 

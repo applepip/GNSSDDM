@@ -1,0 +1,44 @@
+/*!
+
+\page Example02 Example 02 - More Advanced Configuration File
+
+This example shows a real simulation of a GPS signal generation and a software receiver tracking loop.
+The configuration file incorporates the following modules: "snSignalGenerate", "snLowPassFilter", "snNoise", "snADC", and "snSDRGPS".
+
+The signal is defined as
+
+\verbatim
+signal = {
+	inphase = {
+		code = "C/A";
+		prn = 1;
+		modulation = "BPSK(n)";
+		n = 1.0;
+		data_type = "none";
+		data_bps = 50.0;
+	};
+};	
+\endverbatim
+
+The same signal is defined for both signal generation and tracking. The configuration file example_02_gps.cfg is printed at the end of this page.
+
+You can start it by running
+
+\verbatim
+cd snacs/trunk/release
+./SNACS-release -f ../../examples/example_02/example_02_gps.cfg 
+\endverbatim
+
+This is a screenshot of the running simulation:
+
+\image html example-02-screenshot.png "SNACS screenshot of example 02"
+
+You can use the MATLAB script plot_snacs_results_example02.m to plots the results:
+
+\image html snacs-result_example02.png "SNACS simulation result of Example 02"
+
+This is the complete SNACS configuration file:
+
+\includelineno example_02/example_02_gps.cfg
+
+*/

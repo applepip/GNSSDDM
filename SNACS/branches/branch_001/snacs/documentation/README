@@ -1,0 +1,11 @@
+The SNACS sources need to be present in ../trunk for generating the SNACS
+documentation. 
+
+Run a "make clean mocclean" in the trunk directory, before you run doxygen.
+
+To generate the HTML documentation, go to directory doxygen-sources and run doxygen there. 
+
+The HTML documentation will be generated in the html/ directory. 
+
+Open html/index.html to view it.
+
